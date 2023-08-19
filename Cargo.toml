@@ -1,0 +1,31 @@
+[package]
+name = "zkp-chaum-pedersen"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+hex = "0.4.3"
+num-bigint = {version = "0.4", features = ["rand"]}
+rand = "0.8"
+# used to protobuf struct serialization
+prost = "0.11.9"
+# provides asynchronous functionality for rust 
+tokio = { version = "1.32.0" , features = ["macros", "rt-multi-thread"]}
+tonic = "0.9.2"
+
+
+[build-dependencies]
+tonic-build = "0.9"
+
+# cargo run --bin server 
+[[bin]]
+name = "server"
+path = "src/server.rs"
+
+
+# cargo run --bin client 
+[[bin]]
+name = "client"
+path = "src/client.rs"

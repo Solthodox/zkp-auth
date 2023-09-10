@@ -2,7 +2,7 @@ use num_bigint::{BigUint, RandBigInt};
 
 #[derive(Debug, Clone, Default)]
 
-/// n^x mod p
+// ZKP struct for Chaum-Pedersen protocol
 pub struct ZKP {
     pub alpha: BigUint,
     pub beta: BigUint,
@@ -12,6 +12,7 @@ pub struct ZKP {
 }
 
 impl ZKP {
+    // Create a new ZKP instance with provided parameters
     pub fn new(
         alpha: BigUint,
         beta: BigUint,
@@ -27,8 +28,9 @@ impl ZKP {
             rng_upper_bound,
         }
     }
-
+    // Get default 1024-bit configuration values
     pub fn get_1024_bits_config() -> (BigUint, BigUint, BigUint, BigUint, BigUint) {
+        // Configuration parameters    
         let rng_upper_bound = BigUint::new(vec![u32::MAX; 4]);
         let p  = BigUint::from_bytes_be(&hex::decode("B10B8F96A080E01DDE92DE5EAE5D54EC52C99FBCFB06A3C69A6A9DCA52D23B616073E28675A23D189838EF1E2EE652C013ECB4AEA906112324975C3CD49B83BFACCBDD7D90C4BD7098488E9C219A73724EFFD6FAE5644738FAA31A4FF55BCCC0A151AF5F0DC8B4BD45BF37DF365C1A65E68CFDA76D4DA708DF1FB2BC2E4A4371").expect("could not convert p from hex"));
         let q = BigUint::from_bytes_be(
@@ -40,7 +42,7 @@ impl ZKP {
         (alpha, beta, p, q, rng_upper_bound)
     }
 
-    /// output = s = k - c * x mod q
+    // Solve s = k - c * x mod q
     pub fn solve(&self, k: &BigUint, c: &BigUint, x: &BigUint) -> BigUint {
         let cx = c * x;
         if *k >= cx {
@@ -70,7 +72,8 @@ impl ZKP {
 
         r1_verified && r2_verified
     }
-
+    
+    // Generate a random number within the given bounds
     pub fn generate_random(&self) -> BigUint {
         let mut rng = rand::thread_rng();
         rng.gen_biguint_below(&self.rng_upper_bound)

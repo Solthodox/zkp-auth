@@ -14,11 +14,13 @@ use zkp_chaum_pedersen::ZKP;
 
 use crate::zkp_auth::{AuthenticationChallengeRequest, AuthenticationAnswerRequest};
 
+// Create an instance of the ZKP struct
 fn zkp_instance() -> ZKP {
     let (alpha, beta, p, q, rng_upper_bound) = ZKP::get_1024_bits_config();
     ZKP::new(alpha, beta, p, q, rng_upper_bound)
 }
 
+// Entry point for the client application
 #[tokio::main]
 async fn main() {
     let mut buf = String::new();
@@ -55,6 +57,7 @@ async fn main() {
     verify(&mut client, &auth_id, &s).await;
 }
 
+// Function to send a registration request to the server
 async fn register(client:&mut AuthClient<Channel> ,zkp: &ZKP, user_name: &String, x: &BigUint) {
     let request = RegisterRequest {
         user_name: user_name.clone(),
@@ -65,7 +68,7 @@ async fn register(client:&mut AuthClient<Channel> ,zkp: &ZKP, user_name: &String
     let _response = client.register(request).await.unwrap();
 }
 
-
+// Function to request an authentication challenge from the server
 async fn authentication_challenge(client:&mut AuthClient<Channel> ,zkp: &ZKP, user_name: &String, k: &BigUint) -> (String, BigUint) {
     let request = AuthenticationChallengeRequest {
         user_name: user_name.clone(),
@@ -85,6 +88,7 @@ async fn authentication_challenge(client:&mut AuthClient<Channel> ,zkp: &ZKP, us
     (auth_id, c)
 }
 
+// Function to verify the user's solution with the server
 async fn verify(client:&mut AuthClient<Channel>, auth_id: &String, s: &BigUint) {
     let request = AuthenticationAnswerRequest{
         auth_id : auth_id.clone(),

@@ -51,6 +51,7 @@ fn generate_random_string(size: usize) -> String {
         .collect()
 }
 
+// Struct to hold user information
 #[derive(Debug, Default)]
 pub struct AuthImpl {
     pub user_info: Mutex<HashMap<String, UserInfo>>,
@@ -73,6 +74,7 @@ pub struct UserInfo {
     pub session_id: String,
 }
 
+// Main function to start the gRPC server
 #[tonic::async_trait]
 impl Auth for AuthImpl {
     async fn register(

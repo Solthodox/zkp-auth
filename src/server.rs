@@ -4,13 +4,6 @@ use std::{collections::HashMap, sync::Mutex};
 use tonic::{transport::Server, Code, Request, Response, Status};
 use zkp_chaum_pedersen::ZKP;
 
-/*
-The include! macro in Rust is used to include the contents of a specified file directly
-into the source code at the location where the macro is used. This can be useful for
-embedding external files, such as configuration files, code snippets, templates,
-or other resources, directly into your Rust code. The macro essentially inserts the contents
-of the specified file as if they were part of the code.
- */
 
 fn _alpha() -> BigUint {
     let (alpha, _beta, _p, _q, _rng_upper_bound) = ZKP::get_1024_bits_config();
@@ -49,22 +42,7 @@ use zkp_auth::{
     AuthenticationAnswerRequest, AuthenticationAnswerResponse, AuthenticationChallengeRequest,
     AuthenticationChallengeResponse, RegisterRequest, RegisterResponse,
 };
-/*
 
-The given Rust code generates a random string of characters using the rand crate. Let's break down the code step by step:
-
-rand::thread_rng(): This part initializes a random number generator (Rng) from the rand crate. The thread_rng() function returns a generator that is local to the current thread and is suitable for generating random values.
-
-.sample_iter(rand::distributions::Alphanumeric): This is where the random generation takes place. The sample_iter method is called on the random number generator, and it takes an argument representing the distribution of values you want to sample from. In this case, rand::distributions::Alphanumeric specifies that the generated values should be alphanumeric characters, which includes letters (both lowercase and uppercase) and digits.
-
-.take(size): This method limits the number of generated elements to size. The size variable seems to be defined somewhere in your code and determines how many characters will be generated.
-
-.map(char::from): This applies the char::from function to each generated element. This function converts the generated values (which are likely numeric values representing characters) into actual char values. Essentially, it converts the numeric representation of characters back into characters.
-
-.collect(): Finally, the collect method gathers all the converted char values into a collection, which in this case will be a String.
-
-
- */
 fn generate_random_string(size: usize) -> String {
     rand::thread_rng()
         .sample_iter(rand::distributions::Alphanumeric)
@@ -199,7 +177,6 @@ async fn main() {
     let addr = String::from("127.0.0.1:50051");
     println!("✔️ Listening to : {addr}");
 
-    // el metodo default devuele el valor por defecto de un tipo
     let auth_impl = AuthImpl::default();
 
     Server::builder()

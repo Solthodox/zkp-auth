@@ -1,4 +1,4 @@
-///
+
 /// Prover registers in the server sending:
 /// y1 = alpha^x mod p
 /// y2 = beta^x mod p
@@ -15,7 +15,7 @@ pub struct RegisterRequest {
 #[allow(clippy::derive_partial_eq_without_eq)]
 #[derive(Clone, PartialEq, ::prost::Message)]
 pub struct RegisterResponse {}
-///
+
 /// Prover ask for challenge in the server sending
 /// r1 = alpha^k mod p
 /// r2 = beta^k mod p
@@ -38,7 +38,7 @@ pub struct AuthenticationChallengeResponse {
     #[prost(bytes = "vec", tag = "2")]
     pub c: ::prost::alloc::vec::Vec<u8>,
 }
-///
+
 /// Prover sends solution "s = k - c * x mod q" to the challenge
 /// Verifier sends the session ID if the solution is correct
 #[allow(clippy::derive_partial_eq_without_eq)]
